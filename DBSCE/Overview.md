@@ -60,13 +60,13 @@ Device Bound Session Credentials for Enterprise - DBSC(E), is an enhancement to 
 
 ## Why DBSC(E)?
 
-While the original DBSC proposal is focused on providing a mechanism for browsers to bind session credentials to a device, it still remains vulnerable to malware that can run on a device during the initial web application signin/login. If a malware happens to be already running in the device, it can force the user to login, and provide its own binding keys (asymmetric key pair) to the web application, there by gaining the ability to steal the session. Any upcoming sessions after this, even with DBSC, will not be reliable.
+While the original DBSC proposal is focused on providing a mechanism for browsers to bind session credentials to a device, it still remains vulnerable to malware that can run on a device during the initial web application signin/login. If a malware happens to be already running in the device, it can force the user to login or wait until that happens organically, and provide its own binding keys (asymmetric key pair) to the web application, thereby gaining the ability to steal the session. Any upcoming sessions after this, even with DBSC, will not be reliable.
 
-DBSC(E) aims to mitigate this risk by introducing the concept of key generation (asymmetric device-bound key) during the device registration and binds all the future sessions to the device. Enterprises are free to decide when and how to have the device bound keys generated and DBSC(E) allows for the possibility for a given session to be bound to the device, if the device registration is performed when there is no malware on the device (a state referred to as ["clean room"](#device-registration-client)). With DBSC(E), the malware makes it harder to compromise a device even during signin/login. Device registration is also expected to be a once-in-a-lifetime operation, and hence the user will not be required to perform this operation again, reducing opportunities for malware to extract session credentials the device.
+DBSC(E) aims to mitigate this risk by introducing the concept of key generation (asymmetric device-bound key) during the device registration and binds all the future sessions to the device. Enterprises are free to decide when and how to have the device-bound keys generated and DBSC(E) allows for the possibility for a given session to be bound to the device, if the device registration is performed when there is no malware on the device (a state referred to as ["clean room"](#device-registration-client)). With DBSC(E), the malware makes it harder to compromise a device even during signin/login. Device registration is also expected to be a once-in-a-lifetime operation, and hence the user will not be required to perform this operation again, reducing opportunities for malware to extract session credentials from the device.
 
 ## How does it integrate with DBSC?
 
-DBSC(E) is not intended to be a separate proposal from DBSC, it is rather building on existing DBSC, and adds the binding specific details to the protocol. It is expected that the DBSC(E) proposal will be integrated into the DBSC proposal in the specification. In the high-level design, we have folded the DBSC proposal into the end to end flow. Please read the [DBSC proposal](https://githuub.com/wicg/dbsc) before you proceed.
+DBSC(E) is not intended to be a separate proposal from DBSC; it is rather building on existing DBSC, and adds the binding-specific details to the protocol. It is expected that the DBSC(E) proposal will be integrated into the DBSC proposal in the specification. In the high-level design, we have folded the DBSC proposal into the end to end flow. Please read the [DBSC proposal](https://githuub.com/wicg/dbsc) before you proceed.
 
 Before we get into the specifics, we will introduce the terminology and design specifics for the key generation and validation below.
 
@@ -82,7 +82,7 @@ A web application that uses DBSC(E) protocol for cookie binding. This is referre
 
 ### Identity Provider (IdP)
 
-IdP is an authentication server that can be either external to the Relying Party or part of the Relying Party. Eg: Office.com authenticating with Microsoft or google.com authenticating with google. Note: The protocol doesn't change if the IdP is part of the Relying Party, except that some redirects between the IdP and the RP can be skipped or implemented by other means. IDP and RP are same for the certain consumer/enterprise use cases and is referred to as `server` in the original [DBSC design](https://githuub.com/wicg/dbsc).
+IdP is an authentication server that can be either external to the Relying Party or part of the Relying Party. Eg: Office.com authenticating with Microsoft or google.com authenticating with google. Note: The protocol doesn't change if the IdP is identical to the Relying Party, except that some redirects between the IdP and the RP can be skipped or implemented by other means. IDP and RP are same for the certain consumer/enterprise use cases and is referred to as `server` in the original [DBSC design](https://githuub.com/wicg/dbsc).
 
 ### Device Registration Client
 
@@ -99,7 +99,7 @@ One device registration client can manage multiple devices on the same physical 
 - Device management software (MDM provider) - the device gets registered when the MDM is enrolled.
 - Third-party software vendor - the device gets registered according to the vendor rules.
 
-DBSC(E) aims to support most of these scenarios. It does not define the device registration protocol amd is only concerned with the keys generated in a "clean room" state and the management of the generated keys to prove device binding.
+DBSC(E) aims to support most of these scenarios. It does not define the device registration protocol and is only concerned with the keys generated in a "clean room" state and the management of the generated keys to prove device binding.
 
 ### Local Key Helper
 
